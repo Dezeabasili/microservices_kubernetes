@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews
+  template:
+    metadata:
+      labels:
+        app: reviews
+    spec:
+      # nodeName: worker-02
+      containers:
+        - image: doneze/reviewservices:1.0.3
+          ports:
+           - containerPort: 7000
+          name: reviews
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongo-reviews-svc:27017/reviews"
+            - name: RABBITMQ_URI
+              value: "amqp://username:password@rabbitmq-service:5672"
+            - name: CLIENT_URL
+              value: "https://meridian-hosts.com"
+            - name: ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: access_token
+                  name: access-token
+            - name: REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: refresh_token
+                  name: refresh-token
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_name
+                  name: cloud-name
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_key
+                  name: cloud-key
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_sec
+                  name: cloud-sec

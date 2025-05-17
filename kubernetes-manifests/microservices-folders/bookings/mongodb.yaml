@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-bookings
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-bookings
+  template:
+    metadata:
+      labels:
+        app: mongo-bookings
+    spec:
+      nodeName: worker-01
+      containers:
+        - image: mongo
+          name: mongo-bookings
+          args: ["--dbpath", "/data/db"]
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-bookings-volume
+      volumes:
+        - name: mongo-bookings-volume
+          persistentVolumeClaim:
+            claimName: mongo-bookings-pvc

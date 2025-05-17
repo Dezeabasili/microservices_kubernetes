@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: userapi-cert
+  namespace: default
+spec:
+  dnsNames:
+    - meridian-hosts.com
+    - argocd.meridian-hosts.com
+    - www.meridian-hosts.com
+    - authezeservices.info
+    - bookingezeservices.info
+    - hotelezeservices.info
+    - reviewezeservices.info
+  secretName: userapi-tls
+  issuerRef:
+    name: letsencrypt-issuer
+    kind: ClusterIssuer

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-auth
+  template:
+    metadata:
+      labels:
+        app: mongo-auth
+    spec:
+      nodeName: worker-01
+      containers:
+        - image: mongo
+          name: mongo-auth
+          args: ["--dbpath", "/data/db"]
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-auth-volume
+      volumes:
+        - name: mongo-auth-volume
+          persistentVolumeClaim:
+            claimName: mongo-auth-pvc

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-reviews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-reviews
+  template:
+    metadata:
+      labels:
+        app: mongo-reviews
+    spec:
+      nodeName: worker-01
+      containers:
+        - image: mongo
+          name: mongo-reviews
+          args: ["--dbpath", "/data/db"]
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-reviews-volume
+      volumes:
+        - name: mongo-reviews-volume
+          persistentVolumeClaim:
+            claimName: mongo-reviews-pvc

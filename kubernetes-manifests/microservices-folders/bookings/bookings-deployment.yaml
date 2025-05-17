@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookings
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookings
+  template:
+    metadata:
+      labels:
+        app: bookings
+    spec:
+      # nodeName: worker-02
+      containers:
+        - image: doneze/bookingservices:1.0.11
+          ports:
+           - containerPort: 5000
+          name: bookings
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongo-bookings-svc:27017/bookings"
+            - name: RABBITMQ_URI
+              value: "amqp://username:password@rabbitmq-service:5672"
+            - name: CLIENT_URL
+              value: "https://meridian-hosts.com"
+            - name: ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: access_token
+                  name: access-token
+            - name: REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: refresh_token
+                  name: refresh-token
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_name
+                  name: cloud-name
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_key
+                  name: cloud-key
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_sec
+                  name: cloud-sec
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: stripe_key
+                  name: stripe-key
+            - name: WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: stripe_webhook
+                  name: stripe-webhook
+            - name: SIGNING_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: stripe_signin
+                  name: stripe-signin
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: sendgrid_api
+                  name: sendgrid-api
+            - name: MAILTRAP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: mailtrap_token
+                  name: mailtrap-token
+            

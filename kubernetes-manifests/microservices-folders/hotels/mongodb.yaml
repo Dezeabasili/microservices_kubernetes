@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-hotels
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-hotels
+  template:
+    metadata:
+      labels:
+        app: mongo-hotels
+    spec:
+      nodeName: worker-01
+      containers:
+        - image: mongo
+          name: mongo-hotels
+          args: ["--dbpath", "/data/db"]
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-hotels-volume
+      volumes:
+        - name: mongo-hotels-volume
+          persistentVolumeClaim:
+            claimName: mongo-hotels-pvc

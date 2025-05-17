@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      # nodeName: worker-02
+      containers:
+        - image: doneze/auth_services:1.0.42
+          ports:
+           - containerPort: 4000
+          name: auth
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongo-auth-svc:27017/auth"
+            - name: RABBITMQ_URI
+              value: "amqp://username:password@rabbitmq-service:5672"
+            - name: ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: access_token
+                  name: access-token
+            - name: REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: refresh_token
+                  name: refresh-token
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_name
+                  name: cloud-name
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_key
+                  name: cloud-key
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: cloud_sec
+                  name: cloud-sec
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: sendgrid_api
+                  name: sendgrid-api
+            - name: GOOGLE_RECAPTCHA_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: google_captcha
+                  name: google-captcha
+            - name: MAILTRAP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: mailtrap_token
+                  name: mailtrap-token
+            - name: CLIENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: client_url
+                  name: hotel-configmap
+
