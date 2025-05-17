@@ -14,7 +14,7 @@ spec:
     spec:
       # nodeName: worker-02
       containers:
-        - image: doneze/auth_services:1.0.43
+        - image: doneze/auth_services:1.0.42
           ports:
            - containerPort: 4000
           name: auth
