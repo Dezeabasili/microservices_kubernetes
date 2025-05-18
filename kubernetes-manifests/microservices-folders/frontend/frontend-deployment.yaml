@@ -13,7 +13,7 @@ spec:
         app: react
     spec:
       containers:
-        - image: doneze/frontendservices:3.0.38
+        - image: doneze/frontendservices:3.0.39
           name: frontend
           ports:
            - containerPort: 80
