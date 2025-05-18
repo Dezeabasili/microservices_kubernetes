@@ -14,7 +14,7 @@ spec:
     spec:
       # nodeName: worker-02
       containers:
-        - image: doneze/reviewservices:1.0.4
+        - image: doneze/reviewservices:1.0.5
           ports:
            - containerPort: 7000
           name: reviews
