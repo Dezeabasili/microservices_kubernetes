@@ -20,7 +20,10 @@ spec:
           name: hotels
           env:
             - name: MONGO_URI
-              value: "mongodb://mongo-hotels-svc:27017/hotels"
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: mongodb-hotel-url
             - name: RABBITMQ_URI
               value: "amqp://username:password@rabbitmq-service:5672"
             - name: ACCESS_TOKEN

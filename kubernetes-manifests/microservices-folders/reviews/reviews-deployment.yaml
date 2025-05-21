@@ -20,7 +20,10 @@ spec:
           name: reviews
           env:
             - name: MONGO_URI
-              value: "mongodb://mongo-reviews-svc:27017/reviews"
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: mongodb-review-url
             - name: RABBITMQ_URI
               value: "amqp://username:password@rabbitmq-service:5672"
             - name: CLIENT_URL

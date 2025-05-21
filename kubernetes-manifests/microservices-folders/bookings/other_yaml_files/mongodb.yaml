@@ -16,7 +16,18 @@ spec:
       containers:
         - image: mongo
           name: mongo-bookings
-          args: ["--dbpath", "/data/db"]
+          args: ["--auth", "--dbpath", "/data/db"]
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-bookimg-secret
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-bookimg-secret
+                  key: password
           volumeMounts:
             - mountPath: /data/db
               name: mongo-bookings-volume

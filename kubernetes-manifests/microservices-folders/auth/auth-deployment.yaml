@@ -20,7 +20,10 @@ spec:
           name: auth
           env:
             - name: MONGO_URI
-              value: "mongodb://mongo-auth-svc:27017/auth"
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: mongodb-auth-url
             - name: RABBITMQ_URI
               value: "amqp://username:password@rabbitmq-service:5672"
             - name: ACCESS_TOKEN
