@@ -14,7 +14,7 @@ spec:
     spec:
       # nodeName: worker-02
       containers:
-        - image: doneze/booking_services:1.0.13
+        - image: doneze/bookingservices:1.0.14
           ports:
            - containerPort: 5000
           name: bookings
